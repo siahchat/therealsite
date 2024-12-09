@@ -134,11 +134,28 @@
             border-bottom: 1px solid #38444d;
         }
 
-        .post img, .post video {
-            max-width: 100%;
-            border-radius: 10px;
-            margin-top: 10px;
-        }
+      /* Limit media size in posts */
+.post img, .post video, .post audio {
+    max-width: 100%; /* Scale media to fit the container */
+    max-height: 400px; /* Set a max height */
+    border-radius: 10px;
+    object-fit: cover; /* Ensures it scales properly without distortion */
+    margin-top: 10px;
+}
+
+/* Center videos and images if they are smaller */
+.post video, .post img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.post video, .post img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
         .post .username {
             font-weight: bold;
@@ -271,6 +288,76 @@
     width: 25px;
 }
 
+audio {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color: #090b0e;
+}
+
+/* Dark Mode Smooth Transition */
+body, .tweet-box, .post, .sidebar, .trends, .nav-item {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.light-mode .tweet-box {
+    background-color: #f0f0f0;
+    color: #000000;
+}
+
+.light-mode .nav-item:hover {
+    background-color: #e0e0e0;
+    color: #000000;
+}
+
+.dark-mode-toggle-button{
+    width: 100%;
+}
+
+.like-button {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between image and count */
+    cursor: pointer;
+    font-size: 14px;
+    color: #e1e8ed;
+    transition: opacity 0.3s ease;
+}
+
+.like-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.like-button img {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s ease;
+}
+
+.like-button.liked img {
+    transform: scale(1.2); /* Small pop effect on like */
+}
+
+/* Responsive YouTube Embeds */
+.post iframe {
+    width: 100%; /* Make the iframe take full container width */
+    max-width: 600px; /* Optional: Set a max width to prevent it from being too big */
+    height: 315px; /* Default YouTube height for 16:9 ratio */
+    display: block;
+    margin: 10px auto; /* Center it horizontally */
+    border-radius: 10px;
+}
+
+
 </style>
 </head>
 
@@ -286,15 +373,25 @@
             <div class="nav-item">
                 <img src="home-icon.png" alt="Home"> Home
             </div>
+
             <div class="nav-item">
                 <img src="explore-icon.png" alt="Explore"> Explore
             </div>
+
             <div class="nav-item">
                 <img src="notifications-icon.png" alt="Notifications"> Notifications
             </div>
+
             <div class="nav-item">
                 <img src="messages-icon.png" alt="Messages"> Messages
             </div>
+
+            <div class="nav-item">
+                <button onclick="toggleDarkMode()" class="dark-mode-toggle-button">
+                    <img src="moon.png" alt="Moon"> Toggle Dark Mode
+                </button>
+            </div>
+            
 
             <div class="nav-item">
                 <form action="profile.html">
@@ -312,8 +409,9 @@
         <!-- Feed -->
         <div class="feed">
             <div class="tweet-box">
-                <textarea id="tweet-input" placeholder="What’s happening?" autofocus></textarea>
-                <input type="file" id="media-upload" accept="image/*,video/*">
+                <textarea id="tweet-input" placeholder="What’s popping bbg?" autofocus></textarea>
+                <input type="file" id="media-upload" accept="image/*,video/*,audio/*">
+
                 <button onclick="addPost()">Post</button>
             </div>
             <div id="posts"></div>
@@ -351,49 +449,111 @@
       function jesiah(){
             alert("The Strongest, Smartest and Most Handsome Man in the World")
           }
+          function addPost() {
+    const input = document.getElementById('tweet-input');
+    const mediaInput = document.getElementById('media-upload');
+    const postText = input.value.trim();
+    const mediaFile = mediaInput.files[0];
+    const postContainer = document.getElementById('posts');
 
-        function addPost() {
-            const input = document.getElementById('tweet-input');
-            const mediaInput = document.getElementById('media-upload');
-            const postText = input.value.trim();
-            const mediaFile = mediaInput.files[0];
-            const postContainer = document.getElementById('posts');
+    if (postText || mediaFile) {
+        const newPost = document.createElement('div');
+        newPost.className = 'post';
 
-            if (postText || mediaFile) {
-                const newPost = document.createElement('div');
-                newPost.className = 'post';
+        let postContent = `
+            <div>
+                <div class="username">Jesiah <span>@jesiah</span></div>
+        `;
 
-                let postContent = `
-                    <div>
-                        <div class="username">Jesiah <span>@jesiah</span></div>
-                        <div>${postText}</div>
+       // Check for YouTube embed code (iframe) and clean up size
+if (postText.includes("<iframe")) {
+    const iframeContent = postText.replace(/<iframe.*?>.*?<\/iframe>/, (match) => {
+        return match.replace(/width=".*?"/, 'width="100%"')
+                    .replace(/height=".*?"/, 'height="315"');
+    });
+    postContent += `<div class="embed-container">${iframeContent}</div>`;
+}
+ else {
+            postContent += `<div>${postText}</div>`;
+        }
+
+        // Handle media uploads (images, videos, audio)
+        if (mediaFile) {
+            const mediaURL = URL.createObjectURL(mediaFile);
+            if (mediaFile.type.startsWith('image')) {
+                postContent += `
+                    <img src="${mediaURL}" alt="Uploaded Image" 
+                         style="max-width: 100%; height: auto;">
                 `;
-
-                if (mediaFile) {
-                    const mediaURL = URL.createObjectURL(mediaFile);
-                    if (mediaFile.type.startsWith('image')) {
-                        postContent += `<img src="${mediaURL}" alt="Uploaded Image">`;
-                    } else if (mediaFile.type.startsWith('video')) {
-                        postContent += `<video controls><source src="${mediaURL}" type="${mediaFile.type}"></video>`;
-                    }
-                }
-
-                postContent += `</div>`;
-                newPost.innerHTML = postContent;
-
-                // Add delete button
-                const deleteButton = document.createElement('span');
-                deleteButton.innerHTML = '<img src="trash.png">';
-                deleteButton.className = 'delete-icon';
-                deleteButton.onclick = () => newPost.remove();
-
-                newPost.appendChild(deleteButton);
-                postContainer.prepend(newPost);
-
-                input.value = "";
-                mediaInput.value = "";
+            } else if (mediaFile.type.startsWith('video')) {
+                postContent += `
+                    <video controls style="max-width: 100%; max-height: 400px;">
+                        <source src="${mediaURL}" type="${mediaFile.type}">
+                    </video>
+                `;
+            } else if (mediaFile.type.startsWith('audio')) {
+                postContent += `
+                    <audio controls>
+                        <source src="${mediaURL}" type="${mediaFile.type}">
+                    </audio>
+                `;
             }
         }
+
+        // Like button with an empty heart image
+        postContent += `
+                <div>
+                    <button class="like-button" onclick="likePost(this)">
+                        <img src="unliked-heart.png" alt="Like" class="heart-icon" width="20"> 
+                        <span>0</span>
+                    </button>
+                </div>
+            </div>
+        `;
+
+        newPost.innerHTML = postContent;
+
+        // Add delete button
+        const deleteButton = document.createElement('span');
+        deleteButton.innerHTML = '<img src="trash.png">';
+        deleteButton.className = 'delete-icon';
+        deleteButton.onclick = () => newPost.remove();
+
+        newPost.appendChild(deleteButton);
+        postContainer.prepend(newPost);
+
+        // Reset input fields
+        input.value = "";
+        mediaInput.value = "";
+    }
+}
+
+
+    function toggleDarkMode() {
+    document.body.classList.toggle("light-mode");
+}
+
+function likePost(button) {
+    const likeCountSpan = button.querySelector('span');
+    const heartIcon = button.querySelector('.heart-icon'); // Select the heart image
+    let currentCount = parseInt(likeCountSpan.textContent);
+
+    if (button.classList.contains('liked')) {
+        // Unlike: Decrease count and switch to empty heart
+        likeCountSpan.textContent = currentCount - 1;
+        heartIcon.src = "unliked-heart.png"; // Empty heart image
+        button.classList.remove('liked');
+    } else {
+        // Like: Increase count and switch to filled heart
+        likeCountSpan.textContent = currentCount + 1;
+        heartIcon.src = "liked-heart.png"; // Filled heart image
+        button.classList.add('liked');
+    }
+}
+
+
+
+
     </script>
 </body>
 </html>
