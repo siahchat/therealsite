@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiahChat</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            color: #e1e8ed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            flex: 1;
+            max-width: 250px;
+            border-right: 1px solid #38444d;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            padding: 20px;
+        }
+
+        .logo-item img {
+            width: 170px;
+            height: 30px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-item button{
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 15px;
+            height: fit-content;
+            width: fit-content;
+            width: 265%;
+        }
+
+        .nav-item img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .nav-item:hover {
+            background-color: #090b0e;
+            border-radius: 10px;
+            transform: scale(1.05);
+        }
+
+        .tweet-item button {
+            background-color: rgb(30, 144, 255);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tweet-item button:hover {
+            background-color: rgb(20, 114, 185);
+        }
+
+        /* FEED */
+        .feed {
+            flex: 2;
+            max-width: 600px;
+            margin: 10px;
+        }
+
+        .tweet-box {
+            padding: 10px;
+            border-bottom: 1px solid #38444d;
+        }
+
+        .tweet-box textarea {
+            width: 100%;
+            background-color: black;
+            color: #e1e8ed;
+            border: none;
+            resize: none;
+            font-size: 16px;
+            padding: 10px;
+            height: 60px;
+        }
+
+        .tweet-box input {
+            color: #e1e8ed;
+        }
+
+        .tweet-box textarea:focus {
+           outline: none;
+        }
+
+        .tweet-box button {
+            background-color: rgb(30, 144, 255);
+            border: none;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .post {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #38444d;
+        }
+
+        .post img, .post video {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .post .username {
+            font-weight: bold;
+        }
+
+        .post .username span{
+            font-weight: normal;
+            font-size: 90%;
+        }
+
+        .delete-icon {
+            cursor: pointer;
+            max-width: 25px;
+            min-width: 20px;
+            margin-left: 10px;
+             transition: opacity .2s;
+             display: inline;
+        }
+
+        .delete-icon:hover {
+           opacity: .6;
+        }
+
+
+
+        /* TRENDS */
+        .trends {
+            flex: 1;
+            max-width: 250px;
+            border-left: 1px solid #38444d;
+            padding: 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #38444d;
+            border-radius: 40px;
+            padding: 10px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            outline: none;
+            flex: 1;
+        }
+
+        .trend {
+            padding: 10px 0;
+            border-bottom: 1px solid #38444d;
+            border-top: 1px solid #38444d;
+
+
+            cursor: pointer;
+            transition: transform 0.1s ease;
+
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .trend:hover {
+            background-color: #090b0e;
+            transform: scale(1.03);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .trends {
+                display: none;
+            }
+
+            .bottom-nav {
+                display: flex;
+                justify-content: space-around;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                background-color: #000000;
+                border-top: 1px solid #38444d;
+                padding: 10px 0;
+            }
+
+            .feed {
+                margin-bottom: 60px;
+            }
+        }
+
+.others{
+  font-size: 13px;
+  margin-top: 40px;
+  color: rgb(165, 165, 165);
+}
+
+.others a img{
+  width: 25px;
+  border-radius: 20px;
+  padding: 5px;
+  background-color: rgb(165, 165, 165);
+  transition: transform .3s ease;
+}
+
+.others a img:hover{
+  transform: scale(1.05);
+}
+
+.others button{
+  font-size: 13px;
+  background:transparent;
+  border: none;
+  margin-left: -5px;
+  color: rgb(165, 165, 165);
+}
+
+.others button:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.search-bar img{
+    width: 25px;
+}
+
+</style>
+</head>
+
+
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo-item">
+                <img src="siahchat-logo.png" alt="Logo">
+            </div>
+
+            <div class="nav-item">
+                <img src="home-icon.png" alt="Home"> Home
+            </div>
+            <div class="nav-item">
+                <img src="explore-icon.png" alt="Explore"> Explore
+            </div>
+            <div class="nav-item">
+                <img src="notifications-icon.png" alt="Notifications"> Notifications
+            </div>
+            <div class="nav-item">
+                <img src="messages-icon.png" alt="Messages"> Messages
+            </div>
+
+            <div class="nav-item">
+                <form action="profile.html">
+                   <button><img src="profile-icon.png" alt="Profile"> Profile</button> 
+                </form>
+                
+            </div>
+           
+
+            <div class="tweet-item">
+                <button onclick="addPost()">Tweet</button>
+            </div>
+        </div>
+
+        <!-- Feed -->
+        <div class="feed">
+            <div class="tweet-box">
+                <textarea id="tweet-input" placeholder="What’s happening?" autofocus></textarea>
+                <input type="file" id="media-upload" accept="image/*,video/*">
+                <button onclick="addPost()">Post</button>
+            </div>
+            <div id="posts"></div>
+        </div>
+
+        <!-- Trends Sidebar -->
+        <div class="trends">
+            <div class="search-bar">
+                <img src="search-bar-icon.png" alt="Search">
+                <input placeholder="Search">
+            </div>
+            <h3>Trending</h3>
+            <div class="trend">#ExampleTrend1</div>
+            <div class="trend">#AnotherTrend</div>
+            <div class="trend">#CodingFun</div>
+
+            <div class="others">
+              <a href="https://www.youtube.com/@siahto"><img src="youtube.png"></a>
+              <br>
+              <br>
+              © 2024 SIAHCHAT BY <button onclick="jesiah()">JESIAH MARTIN</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navbar -->
+    <div class="bottom-nav">
+        <div>Home</div>
+        <div>Explore</div>
+        <div>Notifications</div>
+        <div>Profile</div>
+    </div>
+
+    <script>
+      function jesiah(){
+            alert("The Strongest, Smartest and Most Handsome Man in the World")
+          }
+
+        function addPost() {
+            const input = document.getElementById('tweet-input');
+            const mediaInput = document.getElementById('media-upload');
+            const postText = input.value.trim();
+            const mediaFile = mediaInput.files[0];
+            const postContainer = document.getElementById('posts');
+
+            if (postText || mediaFile) {
+                const newPost = document.createElement('div');
+                newPost.className = 'post';
+
+                let postContent = `
+                    <div>
+                        <div class="username">Jesiah <span>@jesiah</span></div>
+                        <div>${postText}</div>
+                `;
+
+                if (mediaFile) {
+                    const mediaURL = URL.createObjectURL(mediaFile);
+                    if (mediaFile.type.startsWith('image')) {
+                        postContent += `<img src="${mediaURL}" alt="Uploaded Image">`;
+                    } else if (mediaFile.type.startsWith('video')) {
+                        postContent += `<video controls><source src="${mediaURL}" type="${mediaFile.type}"></video>`;
+                    }
+                }
+
+                postContent += `</div>`;
+                newPost.innerHTML = postContent;
+
+                // Add delete button
+                const deleteButton = document.createElement('span');
+                deleteButton.innerHTML = '<img src="trash.png">';
+                deleteButton.className = 'delete-icon';
+                deleteButton.onclick = () => newPost.remove();
+
+                newPost.appendChild(deleteButton);
+                postContainer.prepend(newPost);
+
+                input.value = "";
+                mediaInput.value = "";
+            }
+        }
+    </script>
+</body>
+</html>

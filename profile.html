@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - SiahChat</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000000;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            flex: 1;
+            max-width: 250px;
+            border-right: 1px solid #38444d;
+            padding: 20px;
+            height: 100vh;
+        }
+
+        .logo-item img {
+            width: 170px;
+            height: 30px;
+        }
+
+        #username{
+            margin-top: 35px;
+            margin-bottom: 5px;
+        }
+
+        .nav-item {
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 18px;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background-color: #090b0e;
+            border-radius: 10px;
+            transform: scale(1.05);
+        }
+
+        /* PROFILE SECTION */
+        .profile-section {
+            flex: 2;
+            width: 100%;
+            padding: 20px;
+        }
+
+        /* Profile Header */
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .profile-header .cover-image {
+            width: 100%;
+            height: 200px;
+            background-color: #000000;
+            margin-bottom: 20px;
+            background: url(missing-picutre.webp);
+            position: relative;
+        }
+
+        .profile-header img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid rgb(0, 0, 0);
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+        }
+
+        .profile-header h2 {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .profile-header .username {
+            font-size: 18px;
+            color: #777;
+        }
+
+        .profile-header .bio {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .edit-profile-btn {
+            margin-top: 10px;
+            background-color: #0095f6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: Arial, Helvetica, sans-serif;
+            border-radius: 10px;
+            font-size: 15px;
+
+            transition: background-color .2s, transform .2s;
+        }
+
+        .edit-profile-btn:hover {
+            background-color: #0077cc;
+            transform: scale(1.1);
+    
+        }
+
+        /* Edit Profile Form */
+        .edit-profile-form {
+            display: none;
+            margin-top: 20px;
+            background-color: #000000;
+            padding: 20px;
+            border-radius: 10px;
+            border: solid 1px #38444d;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .edit-profile-form input, .edit-profile-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #38444d;
+            border-radius: 5px;
+            background-color: #000000;
+            color: white;
+        }
+
+        /* TRENDS */
+        .trends {
+            flex: 1;
+            max-width: 250px;
+            padding: 20px;
+            border-left: 1px solid #38444d;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #eee;
+            border-radius: 20px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: #333;
+            outline: none;
+            flex: 1;
+            font-size: 16px;
+        }
+
+        .trend {
+            padding: 10px 0;
+            border-bottom: 1px solid #38444d;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.1s ease;
+        }
+
+        .trend:hover {
+            background-color: #090b0e;
+            transform: scale(1.03);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .trends {
+                display: none;
+            }
+
+            .profile-section {
+                width: 100%;
+            }
+
+            .bottom-nav {
+                display: flex;
+                justify-content: space-around;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                background-color: #fff;
+                border-top: 1px solid #ddd;
+                padding: 10px 0;
+            }
+        }
+
+        #bio-display{
+            color: white;
+        }
+
+        .nav-item button{
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 15px;
+            height: fit-content;
+            width: fit-content;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo-item">
+                <img src="siahchat-logo.png" alt="Logo">
+            </div>
+
+            <div class="nav-item">
+                <form action="yese.html">
+                <button>Home</button> 
+             </form>
+            </div>
+            
+
+
+            <div class="nav-item">Explore</div>
+            <div class="nav-item">Notifications</div>
+            <div class="nav-item">Messages</div>
+            <div class="nav-item">Profile</div>
+        </div>
+
+        <!-- Profile Section -->
+        <div class="profile-section">
+            <div class="profile-header">
+                <div class="cover-image">
+                <img src="juicewrld.jpg" alt="Profile Picture" id="profile-img" onclick="editProfilePicture()">    
+                </div>
+                <h2 id="username">Jesiah</h2>
+                <div class="username" id="username-display">@jesiah</div>
+                <div class="bio" id="bio-display">Your bio is empty.</div>
+                
+                <button class="edit-profile-btn" onclick="toggleEditProfileForm()">Edit Profile</button>
+            </div>
+
+            <!-- Edit Profile Form -->
+            <div class="edit-profile-form" id="edit-profile-form">
+                <h3>Edit Profile</h3>
+                <input type="text" id="edit-username" placeholder="Username" value="Jesiah">
+                <textarea id="edit-bio" placeholder="Bio"></textarea>
+                <input type="file" id="edit-profile-image" accept="image/*">
+                <button onclick="saveProfileChanges()">Save Changes</button>
+            </div>
+
+        </div>
+
+        <!-- Trends Sidebar -->
+        <div class="trends">
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+            </div>
+
+            <h3>Trending</h3>
+            <div class="trend">#ExampleTrend1</div>
+            <div class="trend">#AnotherTrend</div>
+            <div class="trend">#TechNews</div>
+        </div>
+    </div>
+
+    <!-- Bottom Navbar -->
+    <div class="bottom-nav">
+        <div>Home</div>
+        <div>Explore</div>
+        <div>Notifications</div>
+        <div>Profile</div>
+    </div>
+
+    <script>
+        // Toggle Edit Profile Form
+        function toggleEditProfileForm() {
+            const form = document.getElementById('edit-profile-form');
+            form.style.display = form.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Save Profile Changes
+        function saveProfileChanges() {
+            const username = document.getElementById('edit-username').value;
+            const bio = document.getElementById('edit-bio').value;
+            const profileImgInput = document.getElementById('edit-profile-image');
+            const profileImg = document.getElementById('profile-img');
+            const profileBanner = document.getElementById('profile-banner-img');
+
+            // Update username and bio
+            document.getElementById('username').textContent = username;
+            document.getElementById('username-display').textContent = '@' + username.split(' ').join('').toLowerCase();
+            document.getElementById('bio-display').textContent = bio;
+
+            // Update profile image if one is selected
+            if (profileImgInput.files && profileImgInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profileImg.src = e.target.result;
+                };
+                reader.readAsDataURL(profileImgInput.files[0]);
+            }
+
+            // Close the edit form
+            toggleEditProfileForm();
+        }
+
+        // Edit Profile Picture
+        function editProfilePicture() {
+            document.getElementById('edit-profile-image').click();
+        }
+
+        
+    </script>
+</body>
+</html>
